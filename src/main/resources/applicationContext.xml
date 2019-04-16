@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<!-- 定时器注解驱动 -->
+	<task:annotation-driven />
+
+	<!-- 扫描service bean,GlobalExceptionHandler,GlobalResponseBodyHandler -->
+	<context:component-scan base-package="com.artxls.serviceimpl,
+		com.artxls.exception,com.artxls.common.body.rewrite"></context:component-scan>
+
+    
+
+	<!-- 数据库配置文件 -->
+	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties,classpath:config.properties"/> 
+
+	<!-- druid 数据源配置 -->
+	<bean id="dataSource" init-method="init" destroy-method="close" class="com.alibaba.druid.pool.DruidDataSource" >
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.user}" />
+		<property name="password" value="${db.password}" />
+
+		<!-- 开启Druid的监控统计功能,StatFilter可以和其他的Filter配置使用 
+        <property name="filters" value="stat"/>
+ 		-->
+        <!-- proxyFilters属性配置,通过bean的方式配置 -->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+
+		<property name="maxActive" value="20" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxOpenPreparedStatements" value="20" />
+
+		<property name="asyncInit" value="true" />
+	</bean>
+	
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="2000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+	
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4j2Filter">
+        <!-- 所有连接相关的日志 -->
+        <property name="connectionLogEnabled" value="true"/>
+        <!-- 所有Statement相关的日志 -->
+        <property name="statementLogEnabled" value="true"/>
+        <!-- 是否显示结果集 -->
+        <property name="resultSetLogEnabled" value="true"/>
+        <!-- 是否显示SQL语句 -->
+        <property name="statementExecutableSqlLogEnable" value="true"/>
+    </bean>
+
+
+	<!-- 配置mybatis的sqlSession -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations"
+			value="classpath*:com/artxls/mapper/**/*Mapper.xml"></property>
+	</bean>
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 配置事务属性(通知) -->
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" isolation="DEFAULT" timeout="5" read-only="true" />
+			<tx:method name="list*" isolation="DEFAULT" timeout="5" read-only="true" />
+
+			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置切面(切点+通知) -->
+	<aop:aspectj-autoproxy />
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.artxls.service.*.*.*(..))" id="pointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />
+	</aop:config>
+
+
+	<!-- 自动扫描,将Mapper接口生成代理注入到spring -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.artxls.dao" />
+	</bean>
+	
+	<bean class="com.artxls.common.bean.Config" scope="singleton" id="config">
+	   <constructor-arg name="pageSize" value="${pageHelper.defaultPageSize}"></constructor-arg>
+	   <constructor-arg name="infoId" value="${xls.info.id}"></constructor-arg>
+	</bean>
+	
+</beans>

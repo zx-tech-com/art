@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off">
+	<Properties>
+		<Property name="logPath">${sys:catalina.home}/log-artxls
+		</Property>
+	</Properties>
+	<!-- All < Trace < Debug < Info < Warn < Error < Fatal < OFF -->
+	
+	<Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout pattern="[%d{HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n"/>
+    </Console>
+    
+	<Appenders>
+		<RollingFile name="globalExcption"
+			fileName="${logPath}/global-excption.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/global-excption-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<Filters><!-- 只匹配WARN和ERROR -->
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="WARN" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</Filters>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+		
+		<!--druid的日志记录追加器-->
+		<RollingFile name="druidSql"
+			fileName="${logPath}/druid-sql.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/druid-sql-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="ALL">
+			<appender-ref ref="Console"/>
+		</Root>
+		<Logger level="ALL"
+			name="com.zx.redcross.exception.handler.GloblalExceptionHandler">
+			<AppenderRef ref="globalExcption" />
+		</Logger>
+		<Logger name="druid.sql.Statement" level="all" additivity="false">
+            <AppenderRef ref="druidSqlRollingFile"/>
+        </Logger>
+	</Loggers>
+</Configuration>

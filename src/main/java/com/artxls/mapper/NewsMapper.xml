@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.artxls.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.artxls.entity.News">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="ntype" jdbcType="INTEGER" property="ntype" />
+    <result column="title" jdbcType="CHAR" property="title" />
+    <result column="summary" jdbcType="CHAR" property="summary" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="origin" jdbcType="CHAR" property="origin" />
+    <result column="author" jdbcType="CHAR" property="author" />
+    <result column="iindex" jdbcType="INTEGER" property="iindex" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.artxls.entity.News">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, info_id, ntype, title, summary, publish_time, origin, author, iindex, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.artxls.entity.NewsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.artxls.entity.NewsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.artxls.entity.NewsExample">
+    delete from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.artxls.entity.News">
+    insert into news (id, info_id, ntype, 
+      title, summary, publish_time, 
+      origin, author, iindex, create_time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{infoId,jdbcType=INTEGER}, #{ntype,jdbcType=INTEGER}, 
+      #{title,jdbcType=CHAR}, #{summary,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{origin,jdbcType=CHAR}, #{author,jdbcType=CHAR}, #{iindex,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.artxls.entity.News">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="infoId != null">
+        info_id,
+      </if>
+      <if test="ntype != null">
+        ntype,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="iindex != null">
+        iindex,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null">
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="ntype != null">
+        #{ntype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=CHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=CHAR},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=CHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=CHAR},
+      </if>
+      <if test="iindex != null">
+        #{iindex,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.artxls.entity.NewsExample" resultType="java.lang.Long">
+    select count(*) from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update news
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.infoId != null">
+        info_id = #{record.infoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ntype != null">
+        ntype = #{record.ntype,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=CHAR},
+      </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=CHAR},
+      </if>
+      <if test="record.publishTime != null">
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.origin != null">
+        origin = #{record.origin,jdbcType=CHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=CHAR},
+      </if>
+      <if test="record.iindex != null">
+        iindex = #{record.iindex,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update news
+    set id = #{record.id,jdbcType=INTEGER},
+      info_id = #{record.infoId,jdbcType=INTEGER},
+      ntype = #{record.ntype,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=CHAR},
+      summary = #{record.summary,jdbcType=CHAR},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      origin = #{record.origin,jdbcType=CHAR},
+      author = #{record.author,jdbcType=CHAR},
+      iindex = #{record.iindex,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update news
+    set id = #{record.id,jdbcType=INTEGER},
+      info_id = #{record.infoId,jdbcType=INTEGER},
+      ntype = #{record.ntype,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=CHAR},
+      summary = #{record.summary,jdbcType=CHAR},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      origin = #{record.origin,jdbcType=CHAR},
+      author = #{record.author,jdbcType=CHAR},
+      iindex = #{record.iindex,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.artxls.entity.News">
+    update news
+    <set>
+      <if test="infoId != null">
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="ntype != null">
+        ntype = #{ntype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=CHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=CHAR},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=CHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=CHAR},
+      </if>
+      <if test="iindex != null">
+        iindex = #{iindex,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.artxls.entity.News">
+    update news
+    set info_id = #{infoId,jdbcType=INTEGER},
+      ntype = #{ntype,jdbcType=INTEGER},
+      title = #{title,jdbcType=CHAR},
+      summary = #{summary,jdbcType=CHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      origin = #{origin,jdbcType=CHAR},
+      author = #{author,jdbcType=CHAR},
+      iindex = #{iindex,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.artxls.entity.News">
+    update news
+    set info_id = #{infoId,jdbcType=INTEGER},
+      ntype = #{ntype,jdbcType=INTEGER},
+      title = #{title,jdbcType=CHAR},
+      summary = #{summary,jdbcType=CHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      origin = #{origin,jdbcType=CHAR},
+      author = #{author,jdbcType=CHAR},
+      iindex = #{iindex,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
