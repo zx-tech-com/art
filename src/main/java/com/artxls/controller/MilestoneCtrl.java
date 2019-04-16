@@ -34,6 +34,19 @@ public class MilestoneCtrl {
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	@PostMapping("update")
+	public ResponseEntity update(Milestone event) {
+		eventServ.update(event);
+		return ResponseEntityManager.buildEmptySuccess();
+	}
+	
+	@GetMapping("delete")
+	public ResponseEntity delete(Integer id) {
+		eventServ.delete(id);
+		return ResponseEntityManager.buildEmptySuccess();
+	}
+	
+	
 	@GetMapping("list")
 	public ResponseEntity list(Integer InfoId) {
 		return ResponseEntityManager.buildSuccess(eventServ.list(InfoId));

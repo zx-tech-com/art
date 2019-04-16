@@ -1,5 +1,6 @@
 package com.artxls.serviceimpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class MilestoneServiceImpl implements MilestoneService{
 	
 	@Override
 	public void add(Milestone event) {
+		event.setCreateTime(new Date());
 		milestoneMapper.insert(event);
 	}
 
@@ -34,6 +36,18 @@ public class MilestoneServiceImpl implements MilestoneService{
 		example.createCriteria().andInfoIdEqualTo(InfoId);
 		
 		return milestoneMapper.selectByExample(example);
+	}
+
+	@Override
+	public void update(Milestone event) {
+		milestoneMapper.updateByPrimaryKeySelective(event);
+		
+	}
+
+	@Override
+	public void delete(Integer id) {
+		milestoneMapper.deleteByPrimaryKey(id);
+		
 	}
 
 }

@@ -11,4 +11,8 @@ public interface MilestoneService {
 	void addBatch(List<Milestone> events);
 	
 	List<Milestone> list(Integer InfoId);
+
+	void update(Milestone event);
+
+	void delete(Integer id);
 }
