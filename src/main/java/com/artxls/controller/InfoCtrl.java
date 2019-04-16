@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.bean.Config;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
@@ -27,13 +28,13 @@ public class InfoCtrl {
 		Integer infoId = config.infoId;
 		return ResponseEntityManager.buildSuccess(infoServ.get(infoId));
 	}
-	
+	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(Info info) {
 		infoServ.add(info);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
-	
+	@BackEnd
 	@PostMapping("update")
 	public ResponseEntity update(Info info) {
 		infoServ.update(info);

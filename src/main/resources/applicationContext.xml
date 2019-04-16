@@ -18,7 +18,7 @@
 
 	<!-- 扫描service bean,GlobalExceptionHandler,GlobalResponseBodyHandler -->
 	<context:component-scan base-package="com.artxls.serviceimpl,
-		com.artxls.exception,com.artxls.common.body.rewrite"></context:component-scan>
+		com.artxls.common.exception,com.artxls.common.body.rewrite"></context:component-scan>
 
     
 

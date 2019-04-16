@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.bean.Config;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
@@ -25,13 +26,14 @@ public class MilestoneCtrl {
 	@Autowired
 	private Config config;
 	
-
+	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(Milestone event) {
 		eventServ.add(event);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	@BackEnd
 	@PostMapping("addBatch")
 	public ResponseEntity addBatch(@RequestBody List<Milestone> events) {
 		eventServ.addBatch(events);

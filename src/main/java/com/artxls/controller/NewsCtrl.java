@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.bean.Config;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
@@ -23,13 +24,13 @@ public class NewsCtrl {
 	@Autowired
 	private NewsService newsServ;
 	
-	
+	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(News news) {
 		newsServ.add(news);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
-	
+	@BackEnd
 	@PostMapping("update")
 	public ResponseEntity update(News news) {
 		newsServ.update(news);

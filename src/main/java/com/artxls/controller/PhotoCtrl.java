@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.bean.Config;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
@@ -24,13 +25,13 @@ public class PhotoCtrl {
 	@Autowired
 	private PhotoService photoServ;
 	
-	
+	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(Photo photo,MultipartFile img) {
 		photoServ.add(photo,img);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
-	
+	@BackEnd
 	@PostMapping("update")
 	public ResponseEntity update(Photo photo,@RequestParam(required = false)MultipartFile img) {
 		photoServ.update(photo,img);
