@@ -10,7 +10,7 @@ public interface PhotoService {
 
 	void add(Photo photo,MultipartFile img);
 	
-	List<Photo> list(Integer infoId,Integer wtype,Integer pageNum,Integer pageSize);
+	List<Photo> list(Integer infoId,Integer wtype,Integer subType,Integer pageNum,Integer pageSize, Integer beginYear, Integer endYear,String name);
 	
 	void remove(Integer photoId);
 	

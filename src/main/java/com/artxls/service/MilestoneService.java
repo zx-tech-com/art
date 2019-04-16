@@ -10,5 +10,6 @@ public interface MilestoneService {
 	
 	void addBatch(List<Milestone> events);
 	
-	List<Milestone> list(Integer InfoId);
+	List<Milestone> list(Integer infoId,Integer pageNum,Integer pageSize);
+
 }

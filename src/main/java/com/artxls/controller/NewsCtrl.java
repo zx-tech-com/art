@@ -37,7 +37,8 @@ public class NewsCtrl {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity list(Integer pageNum,
+	public ResponseEntity list(
+			Integer pageNum,
 			@RequestParam(required = false)Integer ntype,
 			@RequestParam(required = false)Integer pageSize,
 			@RequestParam(required = false)Integer infoId) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.artxls.common.exception.BusinessExceptionUtils;
@@ -38,14 +39,28 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public List<Photo> list(Integer infoId, Integer wtype, Integer pageNum, Integer pageSize) {
+	public List<Photo> list(Integer infoId,Integer wtype,Integer subType,
+			Integer pageNum,Integer pageSize, 
+			Integer beginYear, Integer endYear,String name) {
 		
 		PhotoExample example = new PhotoExample();
 		Criteria criteria = example.createCriteria().andInfoIdEqualTo(infoId);
-		if(wtype == null)//如果不传值
-			criteria.andWtypeNotEqualTo(1);//TODO 记得修改作品类型的id
+		if(wtype == 1)//类型查询
+			criteria.andWtypeEqualTo(1);//相册
 		else
-			criteria.andWtypeEqualTo(wtype);
+			criteria.andWtypeEqualTo(wtype);//作品
+		
+		if(subType != null)//子类型
+			criteria.andSubtypeEqualTo(subType);
+		
+		if(!StringUtils.isEmpty(name))//名字模糊查询
+			criteria.andWnameLike(name);
+		
+		if(beginYear != null) {//时间查询
+			endYear = endYear == null ? beginYear + 1 : endYear;
+			criteria.andBginYearBetween(beginYear, endYear);
+		}
+		
 		PageHelper.orderBy(" create_time DESC");
 		PageHelper.startPage(pageNum, pageSize);
 		return photoMapper.selectByExample(example);

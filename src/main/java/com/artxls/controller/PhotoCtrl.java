@@ -38,14 +38,18 @@ public class PhotoCtrl {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity list(Integer pageNum,
-			@RequestParam(required = false)Integer ntype,
+	public ResponseEntity list(@RequestParam Integer pageNum,
 			@RequestParam(required = false)Integer pageSize,
+			@RequestParam Integer ntype,
+			@RequestParam(required = false)Integer subType,
+			@RequestParam(required = false)Integer beginYear,
+			@RequestParam(required = false)Integer endYear,
+			@RequestParam(required = false)String name,
 			@RequestParam(required = false)Integer infoId) {
 		if(infoId == null)
 			infoId = config.infoId;
 		if(pageSize == null)
 			pageSize = config.pageSize;
-		return ResponseEntityManager.buildSuccess(photoServ.list(infoId, ntype, pageNum, pageSize));
+		return ResponseEntityManager.buildSuccess(photoServ.list(infoId, ntype,subType, pageNum, pageSize,beginYear,endYear,name));
 	}
 }
