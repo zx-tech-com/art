@@ -7,9 +7,7 @@ import java.io.File;
  * @author Daryl
  */
 public class Constant {
-public static final String ADMIN = "admin";
 	
-	public static final String ID = "id";
 	
 //	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Apache Tomcat" + File.separator
 //			 + "v8.5" + File.separator + "webapps" + File.separator + "art-file" + File.separator;

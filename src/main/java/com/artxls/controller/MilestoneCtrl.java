@@ -40,12 +40,15 @@ public class MilestoneCtrl {
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	
+	@BackEnd
 	@PostMapping("update")
 	public ResponseEntity update(Milestone event) {
 		eventServ.update(event);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	@BackEnd
 	@GetMapping("delete")
 	public ResponseEntity delete(Integer id) {
 		eventServ.delete(id);

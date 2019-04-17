@@ -36,6 +36,4 @@ public class AdminCtrl {
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
-	
-	
 }
