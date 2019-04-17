@@ -33,13 +33,7 @@ public class PhotoServiceImpl implements PhotoService {
 	public void add(Photo photo,MultipartFile img) {
 		String absoluteBasePath = Constant.ABSOLUTE_BASE_PATH + PHOTO_PATH;
 		String relativePath = FileUtils.saveFile(absoluteBasePath, img);
-		photo.setUrl(relativePath);
-		if(photo.getWtype()==0) {
-			photo.setWname("作品");
-		}else {
-			photo.setWname("相册");
-		}
-		
+		photo.setUrl(relativePath);	
 		try {
 			photoMapper.insertSelective(photo);
 		} catch (Exception e) {
@@ -91,11 +85,6 @@ public class PhotoServiceImpl implements PhotoService {
 			String absoluteBasePath = Constant.ABSOLUTE_BASE_PATH + PHOTO_PATH;
 			relativePath = FileUtils.saveFile(absoluteBasePath, img);
 			photo.setUrl(relativePath);
-		}
-		if(photo.getWtype()==0) {
-			photo.setWname("作品");
-		}else {
-			photo.setWname("相册");
 		}
 		try {
 			photoMapper.updateByPrimaryKeySelective(photo);
