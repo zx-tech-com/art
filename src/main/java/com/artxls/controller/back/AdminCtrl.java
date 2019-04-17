@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
 import com.artxls.common.validate.Get;
