@@ -356,6 +356,66 @@ public class PhotoExample {
             return (Criteria) this;
         }
 
+        public Criteria andSubtypeIsNull() {
+            addCriterion("subtype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeIsNotNull() {
+            addCriterion("subtype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeEqualTo(Integer value) {
+            addCriterion("subtype =", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeNotEqualTo(Integer value) {
+            addCriterion("subtype <>", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeGreaterThan(Integer value) {
+            addCriterion("subtype >", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("subtype >=", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeLessThan(Integer value) {
+            addCriterion("subtype <", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeLessThanOrEqualTo(Integer value) {
+            addCriterion("subtype <=", value, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeIn(List<Integer> values) {
+            addCriterion("subtype in", values, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeNotIn(List<Integer> values) {
+            addCriterion("subtype not in", values, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeBetween(Integer value1, Integer value2) {
+            addCriterion("subtype between", value1, value2, "subtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("subtype not between", value1, value2, "subtype");
+            return (Criteria) this;
+        }
+
         public Criteria andUrlIsNull() {
             addCriterion("url is null");
             return (Criteria) this;

@@ -9,10 +9,12 @@ public interface MilestoneService {
 	void add(Milestone event);
 	
 	void addBatch(List<Milestone> events);
-	
-	List<Milestone> list(Integer InfoId);
 
 	void update(Milestone event);
 
 	void delete(Integer id);
+
+	List<Milestone> list(Integer infoId,Integer pageNum,Integer pageSize);
+
+
 }

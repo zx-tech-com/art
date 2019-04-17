@@ -16,6 +16,8 @@ public enum ReturnCode {
 	
 	USERNAME_EMPTY(4101,"用户名为空"),
 	USERNAME_PASSWD_NOT_MATCH(4102,"账号密码不匹配"),
+	ADMIN_NOT_LOGIN(4103,"请先登录"),
+	SESSION_NOT_VALID(4104,"session过期"),
 	
 	
 	REQUEST_METHOD_NOT_SUPPORT(4005,"请求方法不匹配"),

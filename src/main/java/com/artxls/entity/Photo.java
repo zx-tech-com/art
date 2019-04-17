@@ -13,6 +13,8 @@ public class Photo implements Serializable {
 
     private Integer wtype;
 
+    private Integer subtype;
+
     private String url;
 
     private Integer bginYear;
@@ -59,6 +61,14 @@ public class Photo implements Serializable {
 
     public void setWtype(Integer wtype) {
         this.wtype = wtype;
+    }
+
+    public Integer getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(Integer subtype) {
+        this.subtype = subtype;
     }
 
     public String getUrl() {

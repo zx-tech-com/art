@@ -58,13 +58,13 @@
 	</bean>
 
 	<!-- 配置interceptors -->
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean
-				class="com.artxls.common.interceptor.ReturnSpecificDataInterceptor" />
+				class="com.artxls.common.interceptor.AccessInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 
 	<!-- 上传文件支持 配置MultipartResolver -->
 	<bean id="multipartResolver"
