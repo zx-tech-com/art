@@ -1,5 +1,7 @@
 package com.artxls.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,8 @@ import com.artxls.common.annotation.BackEnd;
 import com.artxls.common.bean.Config;
 import com.artxls.common.response.ResponseEntity;
 import com.artxls.common.response.ResponseEntityManager;
+import com.artxls.common.util.MapUtils;
+import com.artxls.entity.BackPage;
 import com.artxls.entity.Photo;
 import com.artxls.service.PhotoService;
 
@@ -38,6 +42,30 @@ public class PhotoCtrl {
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	@GetMapping("listback")
+	public ResponseEntity listback(@RequestParam Integer pageNum,
+			@RequestParam(required = false)Integer pageSize,
+			@RequestParam Integer ntype,
+			@RequestParam(required = false)Integer subType,
+			@RequestParam(required = false)Integer beginYear,
+			@RequestParam(required = false)Integer endYear,
+			@RequestParam(required = false)String name,
+			@RequestParam(required = false)Integer infoId) {
+		if(infoId == null)
+			infoId = config.infoId;
+		if(pageSize == null)
+			pageSize = config.pageSize;
+		
+		BackPage page = BackPage.generatePage(pageNum, pageSize);
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put("photoList", photoServ.list(infoId, ntype,subType, page,beginYear,endYear,name));
+		map.put("pageInfo", page);
+		
+		return ResponseEntityManager.buildSuccess(map);
+		
+	}
+	
+	
 	@GetMapping("list")
 	public ResponseEntity list(@RequestParam Integer pageNum,
 			@RequestParam(required = false)Integer pageSize,
@@ -51,6 +79,10 @@ public class PhotoCtrl {
 			infoId = config.infoId;
 		if(pageSize == null)
 			pageSize = config.pageSize;
-		return ResponseEntityManager.buildSuccess(photoServ.list(infoId, ntype,subType, pageNum, pageSize,beginYear,endYear,name));
+		
+		BackPage page = BackPage.generatePage(pageNum, pageSize);
+		
+		return ResponseEntityManager.buildSuccess(photoServ.list(infoId, ntype,subType, page,beginYear,endYear,name));
+		
 	}
 }

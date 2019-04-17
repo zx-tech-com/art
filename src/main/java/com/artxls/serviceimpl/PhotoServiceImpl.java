@@ -12,10 +12,12 @@ import com.artxls.common.response.ReturnCode;
 import com.artxls.common.util.Constant;
 import com.artxls.common.util.FileUtils;
 import com.artxls.dao.PhotoMapper;
+import com.artxls.entity.BackPage;
 import com.artxls.entity.Photo;
 import com.artxls.entity.PhotoExample;
 import com.artxls.entity.PhotoExample.Criteria;
 import com.artxls.service.PhotoService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
 @Service
@@ -39,9 +41,7 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public List<Photo> list(Integer infoId,Integer wtype,Integer subType,
-			Integer pageNum,Integer pageSize, 
-			Integer beginYear, Integer endYear,String name) {
+	public List<Photo> list(Integer infoId,Integer wtype,Integer subType,BackPage page, Integer beginYear, Integer endYear,String name) {
 		
 		PhotoExample example = new PhotoExample();
 		Criteria criteria = example.createCriteria().andInfoIdEqualTo(infoId);
@@ -62,8 +62,10 @@ public class PhotoServiceImpl implements PhotoService {
 		}
 		
 		PageHelper.orderBy(" create_time DESC");
-		PageHelper.startPage(pageNum, pageSize);
-		return photoMapper.selectByExample(example);
+		Page<Object> temp = PageHelper.startPage(page.getPageNumber(), page.getPageSize());
+		List<Photo> list = photoMapper.selectByExample(example);
+		page.setTotalCount((int) temp.getTotal());
+		return list;
 	}
 
 	@Override

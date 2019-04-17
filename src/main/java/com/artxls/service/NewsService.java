@@ -2,6 +2,7 @@ package com.artxls.service;
 
 import java.util.List;
 
+import com.artxls.entity.BackPage;
 import com.artxls.entity.News;
 
 public interface NewsService {
@@ -16,7 +17,7 @@ public interface NewsService {
 	 * @param pageSize
 	 * @return
 	 */
-	List<News> list(Integer infoId,Integer ntype,Integer pageNum,Integer pageSize);
+	List<News> list(Integer infoId,Integer ntype,BackPage page);
 	
 	void remove(Integer newsId);
 	

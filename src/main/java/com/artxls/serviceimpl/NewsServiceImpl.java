@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.artxls.dao.NewsMapper;
+import com.artxls.entity.BackPage;
 import com.artxls.entity.News;
 import com.artxls.entity.NewsExample;
 import com.artxls.entity.NewsExample.Criteria;
 import com.artxls.service.NewsService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
 @Service
@@ -24,15 +26,17 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public List<News> list(Integer info, Integer ntype, Integer pageNum, Integer pageSize) {
+	public List<News> list(Integer info, Integer ntype, BackPage page) {
 
 		NewsExample example = new NewsExample();
 		Criteria criteria = example.createCriteria().andInfoIdEqualTo(info);
 		if(ntype != null) 
 			criteria.andNtypeEqualTo(ntype);
 		PageHelper.orderBy(" create_time DESC");
-		PageHelper.startPage(pageNum, pageSize);
-		return newsMapper.selectByExampleWithBLOBs(example);
+		Page<Object> temp = PageHelper.startPage(page.getPageNumber(), page.getPageSize());
+		List<News> list = newsMapper.selectByExampleWithBLOBs(example);
+		page.setTotalCount((int) temp.getTotal());
+		return list;
 	}
 
 	@Override
