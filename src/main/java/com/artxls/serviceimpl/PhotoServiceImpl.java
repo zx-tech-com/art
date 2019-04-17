@@ -1,5 +1,6 @@
 package com.artxls.serviceimpl;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,21 @@ public class PhotoServiceImpl implements PhotoService {
 	@Autowired
 	private PhotoMapper photoMapper;
 	
-	private final static String PHOTO_PATH = "photo";
+	private final static String PHOTO_PATH = "photo"+File.separator ;
 	
 	@Override
 	public void add(Photo photo,MultipartFile img) {
 		String absoluteBasePath = Constant.ABSOLUTE_BASE_PATH + PHOTO_PATH;
 		String relativePath = FileUtils.saveFile(absoluteBasePath, img);
+		photo.setUrl(relativePath);
+		if(photo.getWtype()==0) {
+			photo.setWname("作品");
+		}else {
+			photo.setWname("相册");
+		}
+		
 		try {
-			photoMapper.insert(photo);
+			photoMapper.insertSelective(photo);
 		} catch (Exception e) {
 			FileUtils.removeFile(relativePath);
 			BusinessExceptionUtils.throwBusinessException(ReturnCode.DATA_OPERATION_ERROR);//再抛出去
@@ -84,6 +92,11 @@ public class PhotoServiceImpl implements PhotoService {
 			relativePath = FileUtils.saveFile(absoluteBasePath, img);
 			photo.setUrl(relativePath);
 		}
+		if(photo.getWtype()==0) {
+			photo.setWname("作品");
+		}else {
+			photo.setWname("相册");
+		}
 		try {
 			photoMapper.updateByPrimaryKeySelective(photo);
 		} catch (Exception e) {
@@ -95,6 +108,13 @@ public class PhotoServiceImpl implements PhotoService {
 		
 		if(img != null)
 			FileUtils.removeFile(oldPath);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		String oldPath =  photoMapper.selectByPrimaryKey(id).getUrl();
+		photoMapper.deleteByPrimaryKey(id);
+		FileUtils.removeFile(oldPath);
 	}
 
 }

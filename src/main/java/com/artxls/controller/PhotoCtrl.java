@@ -42,6 +42,14 @@ public class PhotoCtrl {
 		return ResponseEntityManager.buildEmptySuccess();
 	}
 	
+	@BackEnd
+	@GetMapping("delete")
+	public ResponseEntity delete(Integer id) {
+		photoServ.delete(id);
+		return ResponseEntityManager.buildEmptySuccess();
+	}
+	
+
 	@GetMapping("listback")
 	public ResponseEntity listback(@RequestParam Integer pageNum,
 			@RequestParam(required = false)Integer pageSize,
@@ -55,7 +63,6 @@ public class PhotoCtrl {
 			infoId = config.infoId;
 		if(pageSize == null)
 			pageSize = config.pageSize;
-		
 		BackPage page = BackPage.generatePage(pageNum, pageSize);
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put("photoList", photoServ.list(infoId, ntype,subType, page,beginYear,endYear,name));

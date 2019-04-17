@@ -16,4 +16,6 @@ public interface PhotoService {
 	void remove(Integer photoId);
 	
 	void update(Photo photo,MultipartFile img);
+
+	void delete(Integer id);
 }
