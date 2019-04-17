@@ -22,7 +22,6 @@ public static final String ADMIN = "admin";
 	public static final String ABSOLUTE_BASE_PATH = File.separator + 
 				"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
 			+ File.separator + "art-file" + File.separator;
-//	
 	public static final String ACCESS_BASE_PATH = "http://39.98.204.123/art-file/";
 	
 	
