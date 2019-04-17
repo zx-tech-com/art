@@ -22,5 +22,7 @@ public interface NewsService {
 	void remove(Integer newsId);
 	
 	void update(News news);
+
+	void delete(Integer id);
 	
 }

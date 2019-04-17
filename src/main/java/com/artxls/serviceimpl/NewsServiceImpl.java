@@ -1,5 +1,6 @@
 package com.artxls.serviceimpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class NewsServiceImpl implements NewsService{
 
 	@Override
 	public void add(News news) {
+		news.setCreateTime(new Date());
 		newsMapper.insert(news);
 	}
 
@@ -47,6 +49,11 @@ public class NewsServiceImpl implements NewsService{
 	@Override
 	public void update(News news) {
 		newsMapper.updateByPrimaryKeyWithBLOBs(news);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		newsMapper.deleteByPrimaryKey(id);
 	}
 	
 	

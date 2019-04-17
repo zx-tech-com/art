@@ -29,11 +29,20 @@ public class NewsCtrl {
 	private NewsService newsServ;
 	
 	@BackEnd
+	@PostMapping("delete")
+	public ResponseEntity delete(@RequestParam Integer id) {
+		newsServ.delete(id);
+		return ResponseEntityManager.buildEmptySuccess();
+	}
+	
+	
+	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(News news) {
 		newsServ.add(news);
 		return ResponseEntityManager.buildEmptySuccess();
 	}
+	
 	@BackEnd
 	@PostMapping("update")
 	public ResponseEntity update(News news) {
