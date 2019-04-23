@@ -1,9 +1,12 @@
 package com.artxls.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.artxls.entity.Photo;
 import com.artxls.entity.PhotoExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface PhotoMapper {
     long countByExample(PhotoExample example);
@@ -27,4 +30,6 @@ public interface PhotoMapper {
     int updateByPrimaryKeySelective(Photo record);
 
     int updateByPrimaryKey(Photo record);
+    
+    List<Map<String,Object>> selectDistinctYears(Integer ntype);
 }

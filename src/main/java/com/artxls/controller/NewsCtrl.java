@@ -28,6 +28,14 @@ public class NewsCtrl {
 	@Autowired
 	private NewsService newsServ;
 	
+	
+	@GetMapping("detail")
+	public ResponseEntity get(@RequestParam Integer newsID) {
+		return ResponseEntityManager.buildSuccess(newsServ.get(newsID));
+	}
+	
+	
+	
 	@BackEnd
 	@PostMapping("delete")
 	public ResponseEntity delete(@RequestParam Integer id) {
@@ -68,7 +76,6 @@ public class NewsCtrl {
 		
 		return ResponseEntityManager.buildSuccess(map);
 	}
-	
 	
 	@GetMapping("list")
 	public ResponseEntity list(

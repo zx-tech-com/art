@@ -26,6 +26,15 @@ public class MilestoneCtrl {
 	@Autowired
 	private Config config;
 	
+	
+	
+	@GetMapping("detail")
+	public ResponseEntity get(Integer eventID) {
+		return ResponseEntityManager.buildSuccess(eventServ.get(eventID));
+	}
+	
+	
+	
 	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(Milestone event) {

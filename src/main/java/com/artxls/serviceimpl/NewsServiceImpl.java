@@ -36,7 +36,7 @@ public class NewsServiceImpl implements NewsService{
 			criteria.andNtypeEqualTo(ntype);
 		PageHelper.orderBy(" create_time DESC");
 		Page<Object> temp = PageHelper.startPage(page.getPageNumber(), page.getPageSize());
-		List<News> list = newsMapper.selectByExampleWithBLOBs(example);
+		List<News> list = newsMapper.selectByExample(example);//no blob
 		page.setTotalCount((int) temp.getTotal());
 		return list;
 	}
@@ -54,6 +54,11 @@ public class NewsServiceImpl implements NewsService{
 	@Override
 	public void delete(Integer id) {
 		newsMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public News get(Integer id) {
+		return newsMapper.selectByPrimaryKey(id);
 	}
 	
 	

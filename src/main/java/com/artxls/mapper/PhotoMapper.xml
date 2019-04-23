@@ -318,4 +318,21 @@
       iindex = #{iindex,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <resultMap type="hashmap" id="yearAndCount">
+    <result column="year" property="year"/>
+    <result column="counts" property="counts"/>
+  </resultMap>
+  
+  <select id="selectDistinctYears" resultMap="yearAndCount">
+    SELECT
+	    bgin_year AS `year`,
+	    COUNT(id) AS counts
+	FROM
+	    `photo`
+	WHERE
+	    wtype = #{wtype}
+	GROUP BY bgin_year
+	ORDER BY bgin_year ASC
+  </select>
 </mapper>

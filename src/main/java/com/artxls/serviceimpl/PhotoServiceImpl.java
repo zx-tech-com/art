@@ -2,6 +2,7 @@ package com.artxls.serviceimpl;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,16 @@ public class PhotoServiceImpl implements PhotoService {
 		String oldPath =  photoMapper.selectByPrimaryKey(id).getUrl();
 		photoMapper.deleteByPrimaryKey(id);
 		FileUtils.removeFile(oldPath);
+	}
+
+	@Override
+	public Photo get(Integer id) {
+		return photoMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectDistinctYears(Integer ntype) {
+		return photoMapper.selectDistinctYears(ntype);
 	}
 
 }

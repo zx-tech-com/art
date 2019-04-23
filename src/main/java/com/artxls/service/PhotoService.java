@@ -1,6 +1,7 @@
 package com.artxls.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,4 +19,8 @@ public interface PhotoService {
 	void update(Photo photo,MultipartFile img);
 
 	void delete(Integer id);
+	
+	Photo get(Integer id);
+	
+	List<Map<String,Object>> selectDistinctYears(Integer ntype);
 }

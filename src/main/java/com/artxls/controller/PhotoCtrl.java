@@ -29,6 +29,22 @@ public class PhotoCtrl {
 	@Autowired
 	private PhotoService photoServ;
 	
+	
+	
+	@GetMapping("years")
+	public ResponseEntity distinctYears(@RequestParam Integer wtype) {
+		return ResponseEntityManager.buildSuccess(photoServ.selectDistinctYears(wtype));
+	}
+	
+	
+	
+	
+	@GetMapping("detail")
+	public ResponseEntity get(@RequestParam Integer photoID) {
+		return ResponseEntityManager.buildSuccess(photoServ.get(photoID));
+	}
+	
+	
 	@BackEnd
 	@PostMapping("add")
 	public ResponseEntity add(Photo photo,MultipartFile img) {

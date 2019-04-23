@@ -16,5 +16,5 @@ public interface MilestoneService {
 
 	List<Milestone> list(Integer infoId,Integer pageNum,Integer pageSize);
 
-
+	Milestone get(Integer id);
 }

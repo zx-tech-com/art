@@ -59,4 +59,9 @@ public class MilestoneServiceImpl implements MilestoneService{
 		
 	}
 
+	@Override
+	public Milestone get(Integer id) {
+		return milestoneMapper.selectByPrimaryKey(id);
+	}
+
 }
