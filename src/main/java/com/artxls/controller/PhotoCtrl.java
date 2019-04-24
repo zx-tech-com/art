@@ -3,6 +3,7 @@ package com.artxls.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,6 +80,9 @@ public class PhotoCtrl {
 			infoId = config.infoId;
 		if(pageSize == null)
 			pageSize = config.pageSize;
+		if(!StringUtils.isEmpty(name))
+			name = "%" + name + "%";
+		
 		BackPage page = BackPage.generatePage(pageNum, pageSize);
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put("photoList", photoServ.list(infoId, ntype,subType, page,beginYear,endYear,name));

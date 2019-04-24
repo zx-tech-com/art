@@ -64,7 +64,7 @@ public class PhotoServiceImpl implements PhotoService {
 			criteria.andBginYearBetween(beginYear, endYear);
 		}
 		
-		PageHelper.orderBy(" create_time DESC");
+		PageHelper.orderBy(" id ASC");
 		Page<Object> temp = PageHelper.startPage(page.getPageNumber(), page.getPageSize());
 		List<Photo> list = photoMapper.selectByExample(example);
 		page.setTotalCount((int) temp.getTotal());
