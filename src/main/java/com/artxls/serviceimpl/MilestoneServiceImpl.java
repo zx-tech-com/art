@@ -36,7 +36,7 @@ public class MilestoneServiceImpl implements MilestoneService{
 	@Override
 	public List<Milestone> list(Integer infoId,Integer pageNum,Integer pageSize) {
 		
-		PageHelper.orderBy(" myear DESC");
+		PageHelper.orderBy(" myear ASC");
 		if(pageNum != null) {
 			pageSize = pageSize == null? config.pageSize : pageSize;
 			PageHelper.startPage(pageNum, pageSize);
